@@ -2,7 +2,7 @@ const { DataTypes } = require('sequelize');
 
 module.exports = (sequelize) => {
     sequelize.define(
-        'usuario', {
+        'Usuario', {
         id: {
             type: DataTypes.UUID,
             defaultValue: DataTypes.UUIDV4,
@@ -19,6 +19,7 @@ module.exports = (sequelize) => {
         },
         email: {
             type: DataTypes.STRING,
+            validate: {isEmail: true},
             allowNull: true
         },
         username: {
@@ -45,6 +46,19 @@ module.exports = (sequelize) => {
             type: DataTypes.STRING,
             allowNull: false
         },
+        domicilioId: {
+            type: DataTypes.UUID,
+            allowNull: false,
+            references: {
+              model: 'Domicilio',
+              key: 'id'
+            }
+          }
 
+    }, {
+        timestamps: true,
+        createdAt: 'created',
+        updatedAt: 'updated',
+        paranoid: true,
     });
 }
