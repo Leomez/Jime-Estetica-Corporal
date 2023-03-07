@@ -45,15 +45,15 @@ module.exports = (sequelize) => {
         foto: {
             type: DataTypes.STRING,
             allowNull: false
-        },
-        domicilioId: {
-            type: DataTypes.UUID,
-            allowNull: false,
-            references: {
-              model: 'Domicilio',
-              key: 'id'
-            }
-          }
+        }
+        // domicilioId: {
+        //     type: DataTypes.UUIDV4,
+        //     allowNull: false,
+        //     references: {
+        //       model: 'Domicilio',
+        //       key: 'id'
+        //     }
+        //   }
 
     }, {
         timestamps: true,

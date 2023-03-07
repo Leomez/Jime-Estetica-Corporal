@@ -10,7 +10,7 @@ const sequelize = new Sequelize(`postgres://${DB_USER}:${DB_PASSWORD}@${DB_HOST}
     logging: false, // set to console.log to see the raw SQL queries
     native: false, // lets Sequelize know we can use pg-native for ~30% more speed
     define: {
-        freezeTableName: true // Para que no le cambie el nombre a todas las tablas
+        freezeTableName: true // Para que no le cambie el nombre a todas las tablas y no me genere errores como que alguna tabla no existe
       }
 })
 
@@ -34,13 +34,18 @@ sequelize.models = Object.fromEntries(capsEntries);
 
 //en sequelize estan todos los modelos importados como propiedades
 //para relacionarlos hago un destructuring
-
+console.log('conectando base de datos...');
 const {Agenda_cliente, Usuario, Turno, Review, Servicio, Campania, Domicilio, Newsletter, Pago_servicio} = sequelize.models;
 
 
 
 
 //relaciones:
+
+// Defino la relación uno a muchos entre usuario y domicilio
+Domicilio.hasMany(Usuario, {foreignKey: "domicilioId"});
+Usuario.belongsTo(Domicilio, {foreignKey: "domicilioId"});
+
 Usuario.hasMany(Turno);
 // Agrego la clave foránea usuarioId a la tabla turno
 Turno.belongsTo(Usuario);
@@ -72,15 +77,11 @@ Agenda_cliente.belongsTo(Usuario)
 Usuario.hasMany(Review);
 Review.belongsTo(Usuario);
 
-// Defino la relación uno a muchos entre usuario y domicilio
-Domicilio.hasMany(Usuario);
-Usuario.belongsTo(Domicilio);
-
-// Defino la relación uno a muchos entre usuario y domicilio
+// Defino la relación uno a muchos entre campaña y servicio
 Servicio.hasMany(Campania);
 Campania.belongsTo(Servicio);
 
-console.log('fin del archivo');
+console.log('Base de datos conectada exitosamente');
 
 module.exports = {
     ...sequelize.models, //uso esta spread para poder importar los modelos así: const { Producto, Usuario } = require('./db.js');
