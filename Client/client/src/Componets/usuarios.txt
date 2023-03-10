@@ -1,0 +1,32 @@
+Para pasar los datos al controlador, puedes enviarlos en el cuerpo de la solicitud utilizando el método POST de HTTP. La estructura del cuerpo de la solicitud depende del formato de los datos que estés utilizando.
+
+En el ejemplo del controlador que nos muestras, el cuerpo de la solicitud debe contener dos objetos: uno con los datos del usuario y otro con los datos del domicilio. Puedes enviar los datos como un objeto JSON en el cuerpo de la solicitud.
+
+Aquí tienes un ejemplo de cómo podrías enviar los datos en un objeto JSON utilizando axios:
+
+javascript
+Copy code
+const axios = require('axios');
+
+const datos = {
+  nombre: 'Juan',
+  apellido: 'Pérez',
+  email: 'juan.perez@example.com',
+  domicilio: {
+    direccion: 'Calle 123',
+    ciudad: 'Buenos Aires',
+    provincia: 'Buenos Aires',
+    pais: 'Argentina'
+  }
+};
+
+axios.post('http://localhost:3000/usuarios', datos)
+  .then(response => {
+    console.log(response.data);
+  })
+  .catch(error => {
+    console.error(error);
+  });
+En este ejemplo, creamos un objeto datos con los datos del usuario y el domicilio, y lo pasamos como segundo argumento del método axios.post(). Ten en cuenta que debes especificar la URL correcta de tu servidor en el primer argumento del método axios.post().
+
+Para que esto funcione correctamente, debes asegurarte de que la estructura del objeto que envías en el cuerpo de la solicitud coincida con la estructura que espera el controlador. En este caso, el objeto debe tener un campo domicilio que a su vez es un objeto con los campos direccion, ciudad, provincia y pais, y también debe tener los campos nombre, apellido, email, etc. para los datos del usuario

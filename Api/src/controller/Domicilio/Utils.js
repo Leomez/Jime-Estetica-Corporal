@@ -22,7 +22,7 @@ const dom = [
       }      
 ]
 async function DomiciliosPrueba(){
- const domCreado = await Domicilio.bulkCreate(dom) 
+ const domCreado = await Domicilio.bulkCreate(dom, { ignoreDuplicates: true }) 
  return domCreado
 }
 

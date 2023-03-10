@@ -35,7 +35,7 @@ sequelize.models = Object.fromEntries(capsEntries);
 //en sequelize estan todos los modelos importados como propiedades
 //para relacionarlos hago un destructuring
 console.log('conectando base de datos...');
-const {Agenda_cliente, Usuario, Turno, Review, Servicio, Campania, Domicilio, Newsletter, Pago_servicio} = sequelize.models;
+const {Agenda_cliente, Usuario, Turno, Review, Servicio, Campania, Domicilio, Newsletter, Pago_servicio, Historia_clinica, Registro_historia_clinica} = sequelize.models;
 
 
 
@@ -68,6 +68,12 @@ Usuario.hasOne(Newsletter);
 // Agrego la clave foránea a la tabla Newslatter
 Newsletter.belongsTo(Usuario)
 
+// Defino relacion uno a uno entre historia clinica y paciente
+Historia_clinica.hasOne(Registro_historia_clinica);
+// Agrego la fk a la tabla Registro_historia_clinica
+Registro_historia_clinica.belongsTo(Historia_clinica)
+
+
 // Defino la relación uno a uno
 Usuario.hasOne(Agenda_cliente);
 // Agrego la clave foránea a la tabla Agenda_cliente
@@ -86,5 +92,6 @@ console.log('Base de datos conectada exitosamente');
 module.exports = {
     ...sequelize.models, //uso esta spread para poder importar los modelos así: const { Producto, Usuario } = require('./db.js');
     conn: sequelize,
-    Op
+    Op,
+    sequelize
 };
