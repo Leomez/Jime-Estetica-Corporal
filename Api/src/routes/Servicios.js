@@ -4,10 +4,10 @@ const {agregarServicio, traerServicios, traerServicioXId, actaualizarServicio, e
 
 router.get('/', traerServicios)
 router.post('/', agregarServicio)
-//falta provar a partir de aca...
 router.get('/:id', traerServicioXId)
 router.put('/:id', actaualizarServicio)
 router.delete('/:id', eliminarServicio)
+
 
 
 module.exports = router

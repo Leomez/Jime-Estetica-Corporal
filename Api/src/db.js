@@ -11,7 +11,7 @@ const sequelize = new Sequelize(`postgres://${DB_USER}:${DB_PASSWORD}@${DB_HOST}
     native: false, // lets Sequelize know we can use pg-native for ~30% more speed
     define: {
         freezeTableName: true // Para que no le cambie el nombre a todas las tablas y no me genere errores como que alguna tabla no existe
-      }
+    }
 })
 
 const basename = path.basename(__filename);
@@ -35,7 +35,10 @@ sequelize.models = Object.fromEntries(capsEntries);
 //en sequelize estan todos los modelos importados como propiedades
 //para relacionarlos hago un destructuring
 console.log('conectando base de datos...');
-const {Agenda_cliente, Usuario, Turno, Review, Servicio, Campania, Domicilio, Newsletter, Pago_servicio, Historia_clinica, Registro_historia_clinica} = sequelize.models;
+const { Agenda_cliente, Usuario, Turno, Review,
+    Servicio, Campania, Domicilio, Newsletter,
+    Pago_servicio, Historia_clinica,
+    Registro_historia_clinica, Ficha } = sequelize.models;
 
 
 
@@ -43,8 +46,8 @@ const {Agenda_cliente, Usuario, Turno, Review, Servicio, Campania, Domicilio, Ne
 //relaciones:
 
 // Defino la relación uno a muchos entre usuario y domicilio
-Domicilio.hasMany(Usuario, {foreignKey: "domicilioId"});
-Usuario.belongsTo(Domicilio, {foreignKey: "domicilioId"});
+Domicilio.hasMany(Usuario, { foreignKey: "domicilioId" });
+Usuario.belongsTo(Domicilio, { foreignKey: "domicilioId" });
 
 Usuario.hasMany(Turno);
 // Agrego la clave foránea usuarioId a la tabla turno
@@ -62,6 +65,10 @@ Servicio.belongsToMany(Usuario, { through: Turno });
 Turno.hasOne(Pago_servicio);
 // Agrego la clave foránea a la tabla Pago_servicio
 Pago_servicio.belongsTo(Turno)
+
+// Defino la relacion uno a uno con Ficha para ficha e historia clinica
+Ficha.hasOne(Historia_clinica, { foreignKey: "Historia_clinica" })
+Historia_clinica.belongsTo(Ficha, { foreignKey: "Historia_clinica" })
 
 // Defino la relación uno a uno
 Usuario.hasOne(Newsletter);
