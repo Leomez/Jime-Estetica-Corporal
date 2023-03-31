@@ -1,22 +1,25 @@
-
+import React from 'react';
+// import logo from './logo.svg';
 import './App.css';
-import { Route, Routes } from 'react-router-dom';
-import Header from './Components/Header/Header';
-import Home from './Components/Home/Home';
-import Footer from './Components/Footer/Footer';
+import { createTheme, ThemeProvider } from '@mui/material/styles';
+import Home from './LandingPages/Home/home';
+import Paleta from './LandingPages/paleta';
+// import colores from './assets/Temas/colores/colores';
+import palette from './assets/Temas/colores/colores'
 
-function App() {
+const tema = createTheme({palette})
 
-  return (
-    <div className="App">
-      <Header />
-      <Routes>
-        <Route exact path='/' element={<Home/>}/>       
-      </Routes>
-      <Footer />
+  function App() {
 
-    </div>
-  );
-}
+    
+    return (
+      <ThemeProvider theme={tema}>
+        {console.log(tema)}
+        <div>app</div>
+        <Paleta />
+        <Home />
+      </ThemeProvider>
+    );
+  }
 
 export default App;

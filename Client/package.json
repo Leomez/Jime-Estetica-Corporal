@@ -1,5 +1,5 @@
 {
-  "name": "client",
+  "name": "estetica-jime",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
@@ -7,8 +7,7 @@
     "@emotion/styled": "^11.10.6",
     "@fontsource/roboto": "^4.5.8",
     "@mui/icons-material": "^5.11.11",
-    "@mui/material": "^5.11.12",
-    "@mui/styled-engine-sc": "^5.11.11",
+    "@mui/material": "^5.11.15",
     "@testing-library/jest-dom": "^5.16.5",
     "@testing-library/react": "^13.4.0",
     "@testing-library/user-event": "^13.5.0",
@@ -22,7 +21,6 @@
     "redux": "^4.2.1",
     "redux-devtools-extension": "^2.13.9",
     "redux-thunk": "^2.4.2",
-    "styled-components": "^5.3.8",
     "web-vitals": "^2.1.4"
   },
   "scripts": {
