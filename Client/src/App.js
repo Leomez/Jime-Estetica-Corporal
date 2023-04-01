@@ -6,6 +6,7 @@ import Home from './LandingPages/Home/home';
 import Paleta from './LandingPages/paleta';
 // import colores from './assets/Temas/colores/colores';
 import palette from './assets/Temas/colores/colores'
+import { CssBaseline } from '@mui/material';
 
 const tema = createTheme({palette})
 
@@ -13,9 +14,8 @@ const tema = createTheme({palette})
 
     
     return (
-      <ThemeProvider theme={tema}>
-        {console.log(tema)}
-        <div>app</div>
+      <ThemeProvider theme={tema}>    
+        <CssBaseline/>   
         <Paleta />
         <Home />
       </ThemeProvider>
