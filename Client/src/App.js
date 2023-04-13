@@ -8,18 +8,18 @@ import Paleta from './LandingPages/paleta';
 import palette from './assets/Temas/colores/colores'
 import { CssBaseline } from '@mui/material';
 
-const tema = createTheme({palette})
+const tema = createTheme({ palette })
 
-  function App() {
+function App() {
 
-    
-    return (
-      <ThemeProvider theme={tema}>    
-        <CssBaseline/>   
-        <Paleta />
-        <Home />
-      </ThemeProvider>
-    );
-  }
+
+  return (
+    <ThemeProvider theme={tema}>
+      <CssBaseline />
+      <Paleta />
+      <Home />
+    </ThemeProvider>
+  );
+}
 
 export default App;
