@@ -18,7 +18,7 @@ const palette = {
 
   secundary: {
     main: colores.azul_verdoso_claro
-  }
+  } 
 }
 
 export default palette

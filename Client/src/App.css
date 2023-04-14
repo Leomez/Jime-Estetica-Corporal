@@ -1,5 +1,18 @@
+:root {
+  --lila-claro: #d2a8d8;
+  --lila-palido-claro: #d3c6d4a4;
+  --verde-azulado-claro: #9ac2c9;
+  --rosa-palido: #f8d3e3;
+  --rosa-oscuro: #db7093;
+  --azul-verdoso-claro: #70dbbc;
+  --marron-claro: #b88676;
+  --amarillo-verdoso-claro: #c9d17e;
+  --amarillo-marron-claro: #c2b280;
+  --cafe-oscuro: #8b7355;
+}
+
 .App {
-  text-align: center;  
+  text-align: center;    
 }
 
 /* .App-logo {
