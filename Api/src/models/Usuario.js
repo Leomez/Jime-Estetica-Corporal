@@ -32,19 +32,19 @@ module.exports = (sequelize) => {
         },
         edad: {
             type: DataTypes.STRING,
-            allowNull: false
+            allowNull: true
         },
         telefono: {
             type: DataTypes.STRING,
-            allowNull: false
+            allowNull: true
         },
         rol: {
             type: DataTypes.STRING,
-            allowNull: false
+            allowNull: true
         },
         foto: {
             type: DataTypes.STRING,
-            allowNull: false
+            allowNull: true
         }
         // domicilioId: {
         //     type: DataTypes.UUIDV4,

@@ -1,4 +1,4 @@
-const { Sequelize, Op, Model, DataTypes} = require('sequelize');
+const { Sequelize, Op, Model, DataTypes } = require('sequelize');
 const { sequelize } = require('../../db')
 const { Usuario, Domicilio } = require('../../db')
 
@@ -112,11 +112,11 @@ const eliminarUsuario = async (req, res) => {
 async function restaurarUsuario(req, res) {
     const { id } = req.params
     try {
-        const usuarioRestaurado = await Usuario.restore({where: {id : id}})
+        const usuarioRestaurado = await Usuario.restore({ where: { id: id } })
         if (usuarioRestaurado) {
-            res.status(200).json({message: "Usuario restaurado exitosamente"})
+            res.status(200).json({ message: "Usuario restaurado exitosamente" })
         } else {
-            res.status(404).json({error: "Usuario no encontrado"})
+            res.status(404).json({ error: "Usuario no encontrado" })
         }
     } catch (error) {
         console.error(error);
@@ -154,25 +154,74 @@ async function obtenerUsuarios(req, res) {
     }
 }
 
-async function obtenerUsuariosXId(req, res) {
-    const { id } = req.params
-    console.log(id);
+async function loginUsuario(req, res) {
+    const { username, pass } = req.body
     try {
-        const usuarios = await Usuario.findAll();
-        // console.log(usuarios);
-        // let listaUsuarios = usuarios.map( us => console.log(us.dataValues.id))
-        let usuario = usuarios.filter(us => us.dataValues.id == id)
-        usuario.length ?
-            res.status(200).send(usuario) :
-            res.status(404).send("usuario no encontrado")
-
+        const usuario = Usuario.findOne({
+            where: {
+                username: username,
+                pass: pass
+            }
+        })
+        if (usuario) {
+            res.status(200).send(usuario);
+        } else {
+            res.status(404).send("Usuario no encontrado");
+        }
     } catch (error) {
         console.error(error);
-        res.status(500).json({ error: 'Error al obtener los usuarios' });
+        res.status(500).json({ error: 'Error al obtener el usuario' });
+    }
+}
+
+// async function obtenerUsuariosXId(req, res) {
+//     const { id } = req.params
+//     console.log(id);
+//     try {
+//         const usuarios = await Usuario.findAll();
+//         // console.log(usuarios);
+//         // let listaUsuarios = usuarios.map( us => console.log(us.dataValues.id))
+//         let usuario = usuarios.filter(us => us.dataValues.id == id)
+//         usuario.length ?
+//             res.status(200).send(usuario) :
+//             res.status(404).send("usuario no encontrado")
+
+//     } catch (error) {
+//         console.error(error);
+//         res.status(500).json({ error: 'Error al obtener los usuarios' });
+//     }
+// }
+
+
+// parece ser mas eficiente
+async function obtenerUsuarioXId(req, res) {
+    const { id } = req.params;
+    try {
+        const usuario = await Usuario.findOne({
+            where: {
+                id: id
+            }
+        });
+        if (usuario) {
+            res.status(200).send(usuario);
+        } else {
+            res.status(404).send("Usuario no encontrado");
+        }
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ error: 'Error al obtener el usuario' });
     }
 }
 
 
 
 
-module.exports = { agregarUsuario, modificarUsuario, eliminarUsuario, obtenerUsuarios, obtenerUsuariosXId, restaurarUsuario };
+module.exports = { 
+    agregarUsuario, 
+    modificarUsuario, 
+    eliminarUsuario, 
+    obtenerUsuarios, 
+    obtenerUsuarioXId, 
+    restaurarUsuario, 
+    loginUsuario 
+};

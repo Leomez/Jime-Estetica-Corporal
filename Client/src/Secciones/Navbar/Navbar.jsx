@@ -1,9 +1,11 @@
 import { React, useState } from 'react';
 import { MenuItem, Tooltip, Button, Avatar, Container, Menu, Typography, IconButton, Toolbar, Box, AppBar } from '@mui/material';
+import { List, ListItem, ListItemButton, ListItemIcon, ListItemText, Drawer } from '@mui/material'
 import MenuIcon from '@mui/icons-material/Menu';
-import AdbIcon from '@mui/icons-material/Adb';
-import { styled } from '@mui/material/styles';
+import AccountCircleIcon from '@mui/icons-material/AccountCircle';
+
 import logo from '../../assets/Imgs/Logo.png'
+import LoginForm from '../../Componentes/Login/Login';
 import MediaQuery from '../../assets/MediaQuerys/MediaQuerys';
 import s from './Navbar.module.css'
 
@@ -11,18 +13,23 @@ const pages = ['Tratamientos', 'Nosotros', 'Contacto'];
 const settings = ['Profile', 'Account', 'Dashboard', 'Logout'];
 
 function ResponsiveAppBar() {
-    const [anchorElNav, setAnchorElNav] = useState(null);
+    // const [anchorElNav, setAnchorElNav] = useState(null);
     const [anchorElUser, setAnchorElUser] = useState(null);
+    const [openDrawer, setOpenDrawer] = useState(false)
 
-    const handleOpenNavMenu = (event) => {
-        setAnchorElNav(event.currentTarget);
-    };
+    const [usuarioLoguedo, setUsuarioLogueado] = useState(false)
+
+    //handler para el hamburger menu
+    const handleToggleDrawer = (open) => (event) => {
+        if (event.type === 'keydown' && (event.key === 'Tab' || event.key === 'Shift')) {
+            return;
+        }
+        setOpenDrawer(open)
+    }
+
+    //handler para menu user
     const handleOpenUserMenu = (event) => {
         setAnchorElUser(event.currentTarget);
-    };
-
-    const handleCloseNavMenu = () => {
-        setAnchorElNav(null);
     };
 
     const handleCloseUserMenu = () => {
@@ -33,55 +40,58 @@ function ResponsiveAppBar() {
         <AppBar position="static">
             <Container maxWidth="xl" sx={{ backgroundColor: 'transparent', position: 'absolute' }}>
                 <Toolbar disableGutters>
-                    <Box sx={{display: 'flex', mr:1}}>
+                    {/* logo */}
+                    <Box sx={{ display: 'flex', mr: 1 }}>
                         <img className={s.logo} src={logo} alt="Estetica Jime" />
-                    </Box>                                    
+                    </Box>
 
+                    {/* logo hamburger */}
                     <Box sx={{ flexGrow: 1, display: MediaQuery('flex', 'none') }}>
                         <IconButton
                             size="large"
                             aria-label="account of current user"
                             aria-controls="menu-appbar"
                             aria-haspopup="true"
-                            onClick={handleOpenNavMenu}
+                            onClick={handleToggleDrawer(true)}
                             color="inherit"
                         >
                             <MenuIcon />
                         </IconButton>
-                        <Menu
-                            id="menu-appbar"
-                            anchorEl={anchorElNav}
-                            anchorOrigin={{
-                                vertical: 'bottom',
-                                horizontal: 'left',
-                            }}
-                            keepMounted
-                            transformOrigin={{
-                                vertical: 'top',
-                                horizontal: 'left',
-                            }}
-                            open={Boolean(anchorElNav)}
-                            onClose={handleCloseNavMenu}
-                            sx={{
-                                display: MediaQuery('block', 'none'),
-                            }}
+                        {/* menu desplegable */}
+                        <Drawer
+                            anchor='left'
+                            open={openDrawer}
+                            onClose={handleToggleDrawer(false)}
                         >
-                            {pages.map((page) => (
-                                <MenuItem key={page} onClick={handleCloseNavMenu}>
-                                    <Typography textAlign="center">{page}</Typography>
-                                </MenuItem>
-                            ))}
-                        </Menu>
+                            <Box
+                                sx={{ width: 250, height: "100%" }}
+                                backgroundColor={'var(--lila-palido-claro)'}
+                                role='presentation'
+                                onClick={handleToggleDrawer(false)}
+                                onKeyDown={handleToggleDrawer(false)}
+                            >
+                                <List>
+                                    {pages.map((page, index) => (
+                                        <ListItem key={page} disablePadding>
+                                            <ListItemButton>
+                                                <ListItemText primary={page} />
+                                            </ListItemButton>
+                                        </ListItem>
+                                    ))}
+                                </List>
+                            </Box>
+                        </Drawer>
                     </Box>
                     {/* <Box sx={{display: MediaQuery('flex', 'none'), mr:1}}>
                         <img className={s.logo} src={logo} alt="Estetica Jime" />
                     </Box>                     */}
-                    
+
+                    {/* lista de pages en views grande */}
                     <Box sx={{ flexGrow: 1, display: MediaQuery('none', 'flex') }}>
                         {pages.map((page) => (
                             <Button
                                 key={page}
-                                onClick={handleCloseNavMenu}
+                                onClick={handleToggleDrawer(false)}
                                 sx={{ my: 2, color: 'white', display: 'block' }}
                             >
                                 {page}
@@ -89,10 +99,12 @@ function ResponsiveAppBar() {
                         ))}
                     </Box>
 
+                    {/* menu usuario */}
                     <Box sx={{ flexGrow: 0 }}>
                         <Tooltip title="Open settings">
                             <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                                <Avatar alt="Remy Sharp" src="/static/images/avatar/2.jpg" />
+                                {usuarioLoguedo ? <Avatar alt="Remy Sharp" src="/static/images/avatar/2.jpg" /> : <Avatar> <AccountCircleIcon /> </Avatar>}
+
                             </IconButton>
                         </Tooltip>
                         <Menu
@@ -111,13 +123,20 @@ function ResponsiveAppBar() {
                             open={Boolean(anchorElUser)}
                             onClose={handleCloseUserMenu}
                         >
-                            {settings.map((setting) => (
-                                <MenuItem key={setting} onClick={handleCloseUserMenu}>
-                                    <Typography textAlign="center">{setting}</Typography>
-                                </MenuItem>
-                            ))}
+                            {
+                                usuarioLoguedo ?
+                                    settings.map((setting) => (
+                                        <MenuItem key={setting} onClick={handleCloseUserMenu}>
+                                            <Typography textAlign="center">{setting}</Typography>
+                                        </MenuItem>
+                                    )
+                                    ) : <MenuItem>
+                                        <LoginForm />
+                                    </MenuItem>
+                            }
                         </Menu>
                     </Box>
+
                 </Toolbar>
             </Container>
         </AppBar>
